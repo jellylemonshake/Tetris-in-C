@@ -4,7 +4,7 @@
 
 This is a simplified version of the classic Tetris game written in C. The game involves a falling piece, known as a Tetrimino, which the player can control to fit within a 10x20 grid. The goal is to clear lines by filling them completely with pieces. This version supports basic controls like moving pieces left, right, rotating them, and speeding up the descent.
 
-![Screenshot (114)](https://github.com/user-attachments/assets/c77654ec-ac69-45c9-8bb7-1e800a1c5cf5)
+![Screenshot 2025-04-05 121023](https://github.com/user-attachments/assets/0e36e946-06a9-4277-8d49-bae8e672ad3f)
 
 ## ***Features:***
 
