@@ -27,6 +27,7 @@ typedef struct {
     int currentShape[4][4];
     Point position;
     int currentShapeIndex;
+    int score; // Added score variable
 } Tetris;
 
 void copyShape(int dest[4][4], int src[4][4]) {
@@ -122,6 +123,10 @@ void clearLine(Tetris *game, int line) {
 }
 
 void checkLines(Tetris *game) {
+    int linesCleared = 0;
+    int linesToClear[HEIGHT] = {0}; // Mark lines that need to be cleared
+    
+    // Identify full lines
     for (int i = 0; i < HEIGHT; i++) {
         int isFull = 1;
         for (int j = 0; j < WIDTH; j++) {
@@ -131,8 +136,21 @@ void checkLines(Tetris *game) {
             }
         }
         if (isFull) {
+            linesToClear[i] = 1;
+            linesCleared++;
+        }
+    }
+    
+    // Clear lines from bottom to top
+    for (int i = HEIGHT - 1; i >= 0; i--) {
+        if (linesToClear[i]) {
             clearLine(game, i);
         }
+    }
+    
+    // Update score based on number of lines cleared at once
+    if (linesCleared > 0) {
+        game->score += linesCleared * 5;
     }
 }
 
@@ -178,7 +196,10 @@ void draw(Tetris *game) {
     }
     printf("+\n");
 
-    printf("\033[%d;%dH", HEIGHT + 2, 0); // Move cursor below game
+    // Display score
+    printf("Score: %d\n", game->score);
+
+    printf("\033[%d;%dH", HEIGHT + 3, 0); // Move cursor below game and score
 }
 
 
@@ -194,7 +215,7 @@ void handleInput(Tetris *game) {
 
 int main() {
     srand(time(0));
-    Tetris game = {0};
+    Tetris game = {0}; // This initializes everything to 0, including score
 
     spawnNewPiece(&game);
 
@@ -208,6 +229,7 @@ int main() {
 
     return 0;
 }
+
 
 //To run enter in terminal: 
 // gcc ./Tetris.c -o ./a.exe
